@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:complexType name="Setup">
+        <xsd:sequence minOccurs="1" maxOccurs="unbounded">
+            <xsd:element name="Step" type="Step" maxOccurs="unbounded" minOccurs="1">
+    		</xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="Step">
+        <xsd:attribute name="name" use="required">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:string">
+    				<xsd:minLength value="1"></xsd:minLength>
+    				<xsd:whiteSpace value="collapse"></xsd:whiteSpace>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="type" use="required">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:string">
+    				<xsd:minLength value="1"></xsd:minLength>
+    				<xsd:whiteSpace value="collapse"></xsd:whiteSpace>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="parms" use="required">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:string"></xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="loop">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:int">
+    				<xsd:minInclusive value="-1"></xsd:minInclusive>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="failure">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:string">
+    				<xsd:enumeration value="continue"></xsd:enumeration>
+    				<xsd:enumeration value="cancel"></xsd:enumeration>
+    				<xsd:minLength value="1"></xsd:minLength>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+        <xsd:attribute name="delays">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:string">
+    				<xsd:minLength value="1"></xsd:minLength>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+        </xsd:attribute>
+    </xsd:complexType>
+    
+
+    <xsd:complexType name="Cleanup">
+        <xsd:sequence>
+            <xsd:element name="Step" type="Step" maxOccurs="unbounded" minOccurs="1"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="Job">
+    	<xsd:sequence>
+        	<xsd:element name="Step" type="Step" maxOccurs="unbounded" minOccurs="1">
+    		</xsd:element>
+    	</xsd:sequence>
+    	<xsd:attribute name="name" use="required">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:string">
+    				<xsd:minLength value="1"></xsd:minLength>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="loop" type="xsd:int"></xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="Process">
+    	<xsd:sequence minOccurs="1" maxOccurs="1">
+    		<xsd:element name="Setup" type="Setup" minOccurs="0"></xsd:element>
+    		<xsd:element name="Job" type="Job" maxOccurs="unbounded"></xsd:element>
+    		<xsd:element name="Cleanup" type="Cleanup" minOccurs="0"></xsd:element>
+    	</xsd:sequence>
+    	<xsd:attribute name="name" use="required">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:string">
+    				<xsd:minLength value="1"></xsd:minLength>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="duration">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:string">
+    				<xsd:pattern value="\d+d"></xsd:pattern>
+    				<xsd:pattern value="\d+h"></xsd:pattern>
+    				<xsd:pattern value="\d+m"></xsd:pattern>
+    				<xsd:pattern value="\d+s"></xsd:pattern>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="end" type="xsd:dateTime"></xsd:attribute>
+    </xsd:complexType>
+
+
+    <xsd:complexType name="ProjectX">
+        <xsd:annotation>
+        	<xsd:documentation></xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence minOccurs="1">
+        	<xsd:element name="Settings" type="Settings" maxOccurs="1" minOccurs="0"></xsd:element>
+        	<xsd:element name="Setup" type="Setup" minOccurs="0"></xsd:element>
+        	<xsd:element name="Process" type="Process" minOccurs="1"
+        		maxOccurs="unbounded">
+        	</xsd:element>
+        	<xsd:element name="Cleanup" type="Cleanup" minOccurs="0"></xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="duration">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:string">
+    				<xsd:pattern value="\d+d"></xsd:pattern>
+    				<xsd:pattern value="\d+h"></xsd:pattern>
+    				<xsd:pattern value="\d+m"></xsd:pattern>
+    				<xsd:pattern value="\d+s"></xsd:pattern>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="end">
+            <xsd:annotation>
+            	<xsd:documentation></xsd:documentation>
+            </xsd:annotation>
+            <xsd:simpleType>
+            	<xsd:restriction base="xsd:dateTime"></xsd:restriction>
+            </xsd:simpleType>
+    	</xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:element name="ProjectX" type="ProjectX"></xsd:element>
+
+
+
+    <xsd:complexType name="Settings">
+        <xsd:all>
+        	<xsd:element name="Account" type="xsd:string" maxOccurs="1"
+        		minOccurs="0">
+        	</xsd:element>
+        	<xsd:element name="Password" type="xsd:string" maxOccurs="1"
+        		minOccurs="0">
+        	</xsd:element>
+        	<xsd:element name="ShellPrompt" type="xsd:string"
+        		maxOccurs="1" minOccurs="0">
+        	</xsd:element>
+        	<xsd:element name="JVMOptions" type="xsd:string"
+        		maxOccurs="1" minOccurs="0">
+        	</xsd:element>
+        	<xsd:element name="Debug" type="xsd:string" maxOccurs="1"
+        		minOccurs="0">
+        	</xsd:element>
+        	<xsd:element name="DebugPort" type="xsd:string"
+        		maxOccurs="1" minOccurs="0">
+        	</xsd:element>
+        	<xsd:element name="lrecl" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+        </xsd:all>
+    </xsd:complexType>
+</xsd:schema>

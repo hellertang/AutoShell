@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<ProjectX>
+  <Settings>
+  	<Account>stone</Account>
+  	<Password>774412</Password>
+	<ShellPrompt>&amp;</ShellPrompt>
+	<JVMOptions>-Xms20m -Xmx20m</JVMOptions>
+	<Debug>On</Debug>
+	<lrecl>1000</lrecl>
+  </Settings>
+  <Process name="proc1">
+	<Job name="job1" loop="1">
+		<Step name="step1" loop="1" parms="/u/wangzx/mount3/da1,recfm(fb) vvvv vvvv" type="CreateFileEx"/>
+		<Step name="step1" loop="1" parms="/home/stone/mount3/bigfile 10737418240 10 middle 100" type="CreateSparseFile"/>
+  	</Job>
+  	
+  	<Job name="job2" loop="3">
+		<Step name="step1" loop="1" parms="/u/wangzx/mount3/da1,recfm(fb) 123 vvvv" type="CreateFileEx"/>
+		<Step name="step1" loop="1" parms="/home/stone/mount3/bigfile 10737418240 10 middle 100" type="CreateSparseFile"/>
+  	</Job>
+  	
+  	<Job name="job3" loop="4">
+		<Step name="step1" loop="1" parms="/u/wangzx/mount3/da1,recfm(fb) 123 vvvv" type="CreateFileEx"/>
+		<Step name="step1" loop="1" parms="/home/stone/mount3/bigfile hello 10 middle 100" type="CreateSparseFile"/>
+  	</Job>	
+  </Process>
+</ProjectX>
